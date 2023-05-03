@@ -25,11 +25,40 @@ class UploadFileView(APIView):
             return Response({'msg':'uploaded','path':path,'columns':columns},status=status.HTTP_200_OK)
         return Response({'msg':'not uploaded','error':serializer.error_messages},status=status.HTTP_404_NOT_FOUND)
 
+class AttributesView(APIView):
+
+    def post(self, request):
+        print(request.data,"***************************")
+        model = request.data['model']
+        file_name = request.data['file_name']
+        df = pd.read_csv(io.StringIO(default_storage.open(file_name).read().decode('utf-8')))
+        columns = df.columns
+        fields = []
+        for col in columns:
+            a = {
+                "label": col,
+                "name": col,
+                "type": "text"
+                }
+            fields.append(a)
+        fields.append(
+            {"label": "k",
+                "name": "k",
+                "type": "select",
+                "options": [
+                    {
+                    "label": "one",
+                    "value": "1"
+                    },]}
+        )
+        
+        return Response({'fields':fields},status=status.HTTP_200_OK)
+        
 
 class TrainModels(APIView):
 
     def post(self,request):
-        model = request.data
+        model = request.data['model']
         train_split = request.data['train_test_split']['train']
         test_split = request.data['train_test_split']['test']
         validation_split = request.data['train_test_split']['validation']
