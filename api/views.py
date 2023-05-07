@@ -35,12 +35,46 @@ class AttributesView(APIView):
         columns = df.columns
         fields = []
         for col in columns:
-            a = {
-                "label": col,
-                "name": col,
-                "type": "text"
+            missing_value = {
+                "label": col+' missing value',
+                "name": col+'_missing_value',
+                "type": "select",
+                "options":[
+                    {"label":'forward fill','value':'forward_fill'},
+                    {"label":'backward fill','value':'backward_fill'},
+                    {"label":'interpolate','value':'interpolate'},
+                ]
                 }
-            fields.append(a)
+            fields.append(missing_value)
+
+            encoding = {
+                "label": col+' encoding',
+                "name": col+'_encoding',
+                "type": "select",
+                "options":[
+                    {"label":'One Hot','value':'one_hot'},
+                    {"label":'Dummy','value':'dummy'},
+                    {"label":'Effect','value':'effect'},
+                    {"label":'Binary','value':'binary'},
+                    {"label":'BaseN','value':'base_n'},
+                    {"label":'Hash','value':'hash'},
+                    {"label":'Target','value':'target'},
+                ]
+                }
+            fields.append(encoding)
+
+            feature_scaling = {
+                "label": col+' feature_scaling',
+                "name": col+'_feature_scaling',
+                "type": "select",
+                "options":[
+                    {"label":'Min Max','value':'min_max'},
+                    {"label":'Normalization','value':'normalization'},
+                    {"label":'Standardization','value':'standardization'},
+                ]
+                }
+            fields.append(feature_scaling)
+
         fields.append(
             {"label": "k",
                 "name": "k",
