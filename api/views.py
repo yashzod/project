@@ -74,12 +74,12 @@ class AttributesView(APIView):
                 "type": "select",
                 "options":[
                     {"label":'One Hot','value':'one_hot'},
-                    {"label":'Dummy','value':'dummy'},
+                    # {"label":'Dummy','value':'dummy'},
                     {"label":'Effect','value':'effect'},
                     {"label":'Binary','value':'binary'},
                     {"label":'BaseN','value':'base_n'},
                     {"label":'Hash','value':'hash'},
-                    {"label":'Target','value':'target'},
+                    # {"label":'Target','value':'target'},
                 ]
                 }
             fields.append(encoding)
@@ -103,6 +103,10 @@ class AttributesView(APIView):
 class TrainModels(APIView):
 
     def post(self,request):
+
+        print(request.data)
+        # return Response({"data":data},status=status.HTTP_200_OK)
+
 
         model = request.data['model']
         file_name = request.data['file_name']

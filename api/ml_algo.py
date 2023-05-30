@@ -6,9 +6,10 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error, r2_score , accuracy_score
 from sklearn.preprocessing import PolynomialFeatures
 from mlxtend.evaluate import bias_variance_decomp
+from sklearn.neighbors import KNeighborsClassifier
 
 
 def linear_regression(df,x_cols,y_col,train_test_split):
@@ -59,3 +60,53 @@ def linear_regression(df,x_cols,y_col,train_test_split):
     return data
     
 
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+def visualize_knn(df, x_cols, y_col, train_test_split, n_neighbors):
+    dataX = df[x_cols]
+    dataY = df[y_col]
+
+    train_ratio = train_test_split['train'] / 100
+    test_ratio = train_test_split['test'] / 100
+
+    X_train, X_test, y_train, y_test = train_test_split(dataX, dataY, test_size=test_ratio)
+
+    train_errors, test_errors = [], []
+    neighbors = list(range(1, n_neighbors + 1))
+
+    for k in neighbors:
+        model = KNeighborsClassifier(n_neighbors=k)
+        model.fit(X_train, y_train)
+        train_pred = model.predict(X_train)
+        test_pred = model.predict(X_test)
+        train_error = 1 - accuracy_score(y_train, train_pred)
+        test_error = 1 - accuracy_score(y_test, test_pred)
+        train_errors.append(train_error)
+        test_errors.append(test_error)
+
+    # Plotting the results
+    # plt.figure()
+    # plt.plot(neighbors, train_errors, label='Train Error')
+    # plt.plot(neighbors, test_errors, label='Test Error')
+    # plt.xlabel('Number of Neighbors')
+    # plt.ylabel('Error Rate')
+    # plt.title('KNN - Error Rate vs. Number of Neighbors')
+    # plt.legend()
+    # plt.show()
+
+    data = []
+    data.append([
+        {
+            "x":neighbors,
+            "train errors":train_errors,
+            "test errors":test_errors
+        }
+    ])
+
+
+    return data
