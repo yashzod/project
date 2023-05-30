@@ -10,28 +10,6 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.preprocessing import PolynomialFeatures
 from mlxtend.evaluate import bias_variance_decomp
 
-{
-    "model":"linearregression",
-    "file_name":"file_name",
-    "train_test_split":{
-        "train":70,
-        "test":20,
-    },
-    "column_processing":[
-        {
-            "column_name1":{
-                "missing_value":"average",
-                "encoding":"one_hot",
-                "feature_scaling":"0-1"
-            },
-            "column_name2":{
-                "missing_value":"average",
-                "encoding":"one_hot",
-                "feature_scaling":"-1-1"
-            }
-        }
-    ],
-}
 
 def linear_regression(df,x_cols,y_col,train_test_split):
 
